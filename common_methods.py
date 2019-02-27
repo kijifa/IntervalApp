@@ -1,5 +1,9 @@
 import re
 
+def calculate_paces(variables_sec):
+    #warm_up_pace =
+
+    return variables_sec
 
 def calculate_speeds(variables_sec):
     # Average Speed
@@ -51,6 +55,15 @@ def convert_to_sec(time):
     time_in_sec = (int(minutes)*60)+int(seconds)
 
     return time_in_sec
+
+
+def convert_kph_to_mps(kph_speed):
+    if kph_speed == 0:
+        kph_speed = 0
+    kph_speed = float(kph_speed)
+    mps_speed = round(kph_speed/3.6,2)
+
+    return mps_speed
 
 
 def convert_to_meters_per_sec(pace):

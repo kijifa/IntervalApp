@@ -3,10 +3,38 @@ import test_data as td
 
 
 def main():
-    #variables = td.test_input_speed()
-    variables = user_input()
+    variables = td.test_input_speed()
+    #variables = user_input()
 
-    print(variables)
+    variables_in_sec = {
+        'warm_up_time': cm.convert_to_sec(variables.get('warm_up_time')),
+        'warm_up_speed': cm.convert_kph_to_mps(variables.get('warm_up_speed')),
+        'hiit_time': cm.convert_to_sec(variables.get('hiit_time')),
+        'hiit_speed': cm.convert_kph_to_mps(variables.get('hiit_speed')),
+        'rest_time': cm.convert_to_sec(variables.get('rest_time')),
+        'rest_speed': cm.convert_kph_to_mps(variables.get('rest_speed')),
+        'cool_down_time': cm.convert_to_sec(variables.get('cool_down_time')),
+        'cool_down_speed': cm.convert_kph_to_mps(variables.get('cool_down_speed')),
+        'total_time': cm.convert_to_sec(variables.get('total_time'))
+    }
+
+    cm.calculate_paces(variables_in_sec)
+    print(variables_in_sec)
+
+    '''
+    distances = cm.calculate_distances(variables_in_sec)
+    speeds = cm.calculate_speeds(variables_in_sec)
+
+    total_distance = variables_in_sec.get('total_distance')
+    average_speed = variables_in_sec.get('total_average_speed')
+    average_speed_km = round(average_speed * 3.6, 2)
+
+    print('Celkovy cas trvani aktivity ' + variables.get('total_time') + '\n'
+            'Behem teto doby bylo urazeno ' + str(total_distance) + ' metru \n'
+            'To znamena, ze pohyb probihal prumernou rychlosti ' + str(average_speed) + 'm/s \n'
+            'Takze v prepoctu cca ' + str(average_speed_km) + 'km/h.'
+          )
+    '''
     return
 
 
