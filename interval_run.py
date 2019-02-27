@@ -17,8 +17,11 @@ def main():
         'cool_down_pace': convert_to_meters_per_sec(variables.get('cool_down_pace')),
         'total_time': convert_to_sec(variables.get('total_time'))
     }
+    print(variables_in_sec)
 
-    print (variables_in_sec)
+    pace = calculate(variables_in_sec)
+
+
     return
 
 def test_input():
@@ -88,10 +91,26 @@ def user_input():
 
     return variables
 
-def calculate_tempo():
+def calculate(variables_sec):
+    # Warm-Up
+    warm_up_distance = calculate_prepo(variables_sec.get('warm_up_time'),variables_sec.get('warm_up_pace'))
+    variables_sec['warm_up_distance'] = warm_up_distance
 
+    # Cool Down
+    cool_down_distance = calculate_prepo(variables_sec.get('cool_down_time'),variables_sec.get('cool_down_pace'))
+    variables_sec['cool_down_distance'] = cool_down_distance
 
+    # Interval Part
+    variables_sec['intervals_time'] = variables_sec.get('total_time') \
+                                     - variables_sec.get('warm_up_time') \
+                                     - variables_sec.get('cool_down_time')
+
+    print(variables_sec)
     return
+
+def calculate_prepo(time,pace):
+    distance = time * pace
+    return distance
 
 def convert_to_sec(time):
     time_split = time.split(':')
