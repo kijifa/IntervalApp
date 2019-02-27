@@ -6,8 +6,20 @@ def main():
     #variables = user_input()
     variables = test_input()
 
-    print (variables)
-    return variables
+    variables_in_sec = {
+        'warm_up_time': convert_to_sec(variables.get('warm_up_time')),
+        'warm_up_pace': convert_to_meters_per_sec(variables.get('warm_up_time')),
+        'hiit_time': convert_to_sec(variables.get('hiit_time')),
+        'hiit_pace': convert_to_meters_per_sec(variables.get('hiit_pace')),
+        'rest_time': convert_to_sec(variables.get('rest_time')),
+        'rest_pace': convert_to_meters_per_sec(variables.get('rest_pace')),
+        'cool_down_time': convert_to_sec(variables.get('cool_down_time')),
+        'cool_down_pace': convert_to_meters_per_sec(variables.get('cool_down_pace')),
+        'total_time': convert_to_sec(variables.get('total_time'))
+    }
+
+    print (variables_in_sec)
+    return
 
 def test_input():
     variables = {
@@ -82,12 +94,25 @@ def calculate_tempo():
     return
 
 def convert_to_sec(time):
-    time_to_convert = check_time_format(time)
+    time_split = time.split(':')
+    minutes = int(time_split[0])
+    seconds = int(time_split[1])
 
-    mins = re.search('')
-
+    time_in_sec = (int(minutes)*60)+int(seconds)
 
     return time_in_sec
+
+def convert_to_meters_per_sec(pace):
+    pace_in_sec = convert_to_sec(pace)
+
+    if pace_in_sec == 0:
+        km_per_hour = 0
+    else:
+        km_per_hour = 3600/pace_in_sec
+
+    meters_per_sec = round(km_per_hour/3.6,2)
+
+    return meters_per_sec
 
 def check_input(time):
     while True:
