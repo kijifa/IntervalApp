@@ -28,6 +28,7 @@ def main():
     total_distance = variables_in_sec.get('total_distance')
     average_speed = variables_in_sec.get('total_average_speed')
     average_speed_km = round(average_speed * 3.6, 2)
+    
 
     print('Celkovy cas trvani aktivity ' + variables.get('total_time') + '\n'
             'Behem teto doby bylo urazeno ' + str(total_distance) + ' metru \n'
