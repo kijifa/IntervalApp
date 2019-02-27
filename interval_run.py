@@ -5,7 +5,7 @@ def main():
 
     #variables = user_input()
     variables = test_input()
-
+    print(variables)
     variables_in_sec = {
         'warm_up_time': convert_to_sec(variables.get('warm_up_time')),
         'warm_up_pace': convert_to_meters_per_sec(variables.get('warm_up_time')),
@@ -19,8 +19,20 @@ def main():
     }
     print(variables_in_sec)
 
-    pace = calculate(variables_in_sec)
+    distances = calculate_distances(variables_in_sec)
+    speeds = calculate_speeds(variables_in_sec)
 
+    total_distance = variables_in_sec.get('total_distance')
+    average_speed = variables_in_sec.get('total_average_speed')
+    average_speed_km = round(average_speed * 3.6,2)
+    #average_speed =
+    #str_as = print(str(average_speed))
+
+    print('Celkovy cas trvani aktivity ' + variables.get('total_time') + '\n'
+          'Behem teto doby bylo urazeno ' + str(total_distance) + ' metru \n'
+          'To znamena, ze pohyb probihal prumernou rychlosti ' + str(average_speed) + 'm/s \n'
+          'Takze v prepoctu cca ' + str(average_speed_km) + 'km/h.'
+          )
 
     return
 
@@ -34,7 +46,7 @@ def test_input():
         'rest_pace': '5:30',
         'cool_down_time': '0:00',
         'cool_down_pace': '0:00',
-        'total_time': '40:00'
+        'total_time': '39:00'
     }
 
     return variables
@@ -91,13 +103,19 @@ def user_input():
 
     return variables
 
-def calculate(variables_sec):
+def calculate_speeds(variables_sec):
+    # Average Speed
+    variables_sec['total_average_speed'] = round(variables_sec.get('total_distance')/variables_sec.get('total_time'),2)
+
+    return variables_sec
+
+def calculate_distances(variables_sec):
     # Warm-Up
-    warm_up_distance = calculate_prepo(variables_sec.get('warm_up_time'),variables_sec.get('warm_up_pace'))
+    warm_up_distance = calculate_distance(variables_sec.get('warm_up_time'),variables_sec.get('warm_up_pace'))
     variables_sec['warm_up_distance'] = warm_up_distance
 
     # Cool Down
-    cool_down_distance = calculate_prepo(variables_sec.get('cool_down_time'),variables_sec.get('cool_down_pace'))
+    cool_down_distance = calculate_distance(variables_sec.get('cool_down_time'),variables_sec.get('cool_down_pace'))
     variables_sec['cool_down_distance'] = cool_down_distance
 
     # Interval Part
@@ -105,11 +123,23 @@ def calculate(variables_sec):
                                      - variables_sec.get('warm_up_time') \
                                      - variables_sec.get('cool_down_time')
 
+    variables_sec['number_of_interval'] = round(variables_sec.get('intervals_time')/\
+                        (variables_sec.get('hiit_time')+variables_sec.get('rest_time')),0)
+    variables_sec['hiit_distance_one_int'] = calculate_distance(variables_sec.get('hiit_time'),
+                                                                variables_sec.get('hiit_pace'))
+    variables_sec['rest_distance_one_int'] = calculate_distance(variables_sec.get('rest_time'),
+                                                                variables_sec.get('rest_pace'))
+    variables_sec['intervals_distance'] = variables_sec['number_of_interval'] * (variables_sec.get('hiit_distance_one_int')
+                                                                                + variables_sec.get('rest_distance_one_int'))
+    variables_sec['total_distance'] = variables_sec.get('warm_up_distance') \
+                                        + variables_sec.get('cool_down_distance') \
+                                        + variables_sec.get('intervals_distance')
     print(variables_sec)
-    return
+    return variables_sec
 
-def calculate_prepo(time,pace):
+def calculate_distance(time,pace):
     distance = time * pace
+    distance = round(distance,2)
     return distance
 
 def convert_to_sec(time):
