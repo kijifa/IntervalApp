@@ -3,26 +3,24 @@ import test_data as td
 
 
 def main():
-    variables = td.test_input_speed()
-    #variables = user_input()
+    speed_kph = td.test_input_speed()
+    time = td.test_input_time()
+    #time, speed_kph = user_input()
 
-    variables_in_sec = {
-        'warm_up_time': cm.convert_to_sec(variables.get('warm_up_time')),
-        'warm_up_speed': cm.convert_kph_to_mps(variables.get('warm_up_speed')),
-        'hiit_time': cm.convert_to_sec(variables.get('hiit_time')),
-        'hiit_speed': cm.convert_kph_to_mps(variables.get('hiit_speed')),
-        'rest_time': cm.convert_to_sec(variables.get('rest_time')),
-        'rest_speed': cm.convert_kph_to_mps(variables.get('rest_speed')),
-        'cool_down_time': cm.convert_to_sec(variables.get('cool_down_time')),
-        'cool_down_speed': cm.convert_kph_to_mps(variables.get('cool_down_speed')),
-        'total_time': cm.convert_to_sec(variables.get('total_time'))
-    }
+    time_sec = cm.convert_time(time)
+    speed_mps = cm.convert_speed(speed_kph)
 
-    cm.calculate_paces(variables_in_sec)
-    print(variables_in_sec)
+    print('Time: ' + str(time))
+    print('Time in sec: ' + str(time_sec))
+    print('Speed kph: ' + str(speed_kph))
+    print('Speed mps: ' + str(speed_mps))
 
+    #paces = cm.calculate_paces(speed_kph)
+#    print(variables_in_sec)
+
+
+#    distances = cm.calculate_distances(variables_in_sec)
     '''
-    distances = cm.calculate_distances(variables_in_sec)
     speeds = cm.calculate_speeds(variables_in_sec)
 
     total_distance = variables_in_sec.get('total_distance')
@@ -77,19 +75,22 @@ def user_input():
     total_time = input('Jak dlouho aktivita trvala celkove? (format min:sec)\n')
     total_time = check_input_time(total_time)
 
-    variables = {
-        'warm_up_time' : warm_up_time,
-        'warm_up_speed' : warm_up_speed,
-        'hiit_time' : hiit_time,
-        'hiit_speed' : hiit_speed,
-        'rest_time' : rest_time,
-        'rest_speed' : rest_speed,
-        'cool_down_time' : cool_down_time,
-        'cool_down_speed' : cool_down_speed,
-        'total_time' : total_time
+    time = {
+        'warm_up' : warm_up_time,
+        'hiit' : hiit_time,
+        'rest' : rest_time,
+        'cool_down' : cool_down_time,
+        'total' : total_time
     }
 
-    return variables
+    speed = {
+        'warm_up': warm_up_speed,
+        'hiit': hiit_speed,
+        'rest': rest_speed,
+        'cool_down': cool_down_speed,
+    }
+
+    return time, speed
 
 
 def check_input_time(time):
