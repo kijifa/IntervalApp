@@ -1,33 +1,57 @@
 import re
 
-def calculate_paces(time,speed):
-    #warm_up_pace =
+def calculate_intervals(time, speed, distance):
+    intervals = {}
+
+    intervals['distance'] = distance.get('hiit') + distance.get('rest')
+    intervals['time'] = time.get('hiit') + time.get('rest')
+    #intervals['average_speed'] = calculate_average_speed()
+
+    return intervals
+
+
+def calculate_paces(speed):
+    paces = {}
+    for variable, value in speed.items():
+        paces[variable] = calculate_pace(value)
+
+    return paces
+
+
+def calculate_pace(speed):
+    if speed != '0':
+        tmp_pace = (60/float(speed))
+        pace = '{0:02.0f}:{1:02.0f}'.format(*divmod(tmp_pace * 60, 60))
+    else:
+        pace = '0:00'
+
+    return pace
+
+
+def calculate_average_speed(time,speed):
+
 
     return variables_sec
 
-def calculate_speeds(variables_sec):
-    # Average Speed
-    variables_sec['total_average_speed'] = round(variables_sec.get('total_distance')/variables_sec.get('total_time'),2)
 
-    return variables_sec
+def calculate_distances(time, speed_mps, keys):
+    distances = {}
 
+    for key in keys:
+        distance = calculate_distance(time.get(key),speed_mps.get(key))
+        distances[key] = distance
 
-def calculate_distances(variables):
-    speed = {}
-
-
-
-    return speed
+    return distances
 
 
-def calculate_distance(time,speed):
-    distance = time * speed
+def calculate_distance(time, speed):
+    distance = float(time) * float(speed)
     distance = round(distance,2)
     return distance
 
 
 def convert_to_sec(time):
-    if time is not None:
+    if time != '0' and time is not None:
         time_split = time.split(':')
         minutes = int(time_split[0])
         seconds = int(time_split[1])
@@ -42,7 +66,7 @@ def convert_to_sec(time):
 def convert_kph_to_mps(kph_speed):
     if kph_speed is None:
         kph_speed = 0
-    if kph_speed == 0:
+    if kph_speed == '0':
         kph_speed = 0
     kph_speed = float(kph_speed)
     mps_speed = round(kph_speed/3.6,2)

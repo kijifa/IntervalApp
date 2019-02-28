@@ -16,7 +16,7 @@ def test_input():
 
 def test_input_time():
     time = {
-        'warm_up': '5:00',
+        'warm_up': '0',
         'hiit': '1:00',
         'rest': '2:00',
         'cool_down': '10:00',
@@ -27,9 +27,9 @@ def test_input_time():
 
 def test_input_speed():
     speed = {
-        'warm_up': '8.00',
+        'warm_up': '0',
         'hiit': '14.00',
-        'rest': '10.00',
+        'rest': '12.00',
         'cool_down': '6.00'
     }
     return speed

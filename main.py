@@ -2,6 +2,9 @@ import common_methods as cm
 import test_data as td
 
 
+keys = ['warm_up', 'hiit', 'rest', 'cool_down']
+
+
 def main():
     speed_kph = td.test_input_speed()
     time = td.test_input_time()
@@ -10,16 +13,10 @@ def main():
     time_sec = cm.convert_time(time)
     speed_mps = cm.convert_speed(speed_kph)
 
-    print('Time: ' + str(time))
-    print('Time in sec: ' + str(time_sec))
-    print('Speed kph: ' + str(speed_kph))
-    print('Speed mps: ' + str(speed_mps))
+    paces = cm.calculate_paces(speed_kph)
+    distances = cm.calculate_distances(time_sec, speed_mps, keys)
+    intervals = cm.calculate_intervals(time_sec, speed_mps, distances)
 
-    #paces = cm.calculate_paces(speed_kph)
-#    print(variables_in_sec)
-
-
-#    distances = cm.calculate_distances(variables_in_sec)
     '''
     speeds = cm.calculate_speeds(variables_in_sec)
 
@@ -34,6 +31,14 @@ def main():
             'Takze v prepoctu cca ' + str(average_speed_km) + 'km/h.'
           )
     '''
+    print('Time: ' + str(time))
+    print('Time in sec: ' + str(time_sec))
+    print('Speed kph: ' + str(speed_kph))
+    print('Speed mps: ' + str(speed_mps))
+    print('Pace min per km: ' + str(paces))
+    print('Distance in meters: ' + str(distances))
+    print('Intervals details: ' + str(intervals))
+
     return
 
 
