@@ -6,9 +6,12 @@ def calculate_intervals(time, speed, distance):
 
     intervals['distance'] = distance.get('hiit') + distance.get('rest')
     intervals['time'] = time.get('hiit') + time.get('rest')
-    intervals['average_speed_mps'] = calculate_average_speed(intervals.get('distance'),intervals.get('time'))
+    intervals['average_speed_mps'] = calculate_average_speed(intervals.get('distance'), intervals.get('time'))
     intervals['average_speed_kph'] = round(intervals.get('average_speed_mps')*3.6,2)
-    intervals['count_intervals'] = (time.get('total') - time.get('warm_up') - time.get('cool_down'))/(intervals.get('time'))
+    intervals['sum_time'] = time.get('total') - time.get('warm_up') - time.get('cool_down')
+    intervals['sum_time_min'] = '{0:02.0f}:{1:02.0f}'.format(*divmod(intervals.get('sum_time'), 60))
+    intervals['count_intervals'] = intervals.get('sum_time') / intervals.get('time')
+    intervals['sum_distance'] = intervals.get('distance') * intervals.get('count_intervals')
 
     return intervals
 
@@ -27,6 +30,19 @@ def test_input():
     }
 
     return variables
+
+
+def calculate_summary(time_sec, distances, intervals):
+    summary = {}
+
+    summary['total_time'] = time_sec.get('total')
+    summary['total_time_min'] = '{0:02.0f}:{1:02.0f}'.format(*divmod(summary.get('total_time'), 60))
+    summary['total_distance'] = intervals.get('sum_distance') + distances.get('warm_up') + distances.get('cool_down')
+    summary['average_speed_mps'] = calculate_average_speed(summary.get('total_distance'), summary.get('total_time'))
+    summary['average_speed_kph'] = round(summary.get('average_speed_mps') * 3.6,2)
+    summary['average_pace'] = calculate_pace(summary.get('average_speed_kph'))
+
+    return summary
 
 
 def calculate_paces(speed):
