@@ -17,6 +17,7 @@ def main():
     distances = cm.calculate_distances(time_sec, speed_mps, keys)
     intervals = cm.calculate_intervals(time_sec, speed_mps, distances)
 
+    summary = cm.calculate_summary()
     '''
     speeds = cm.calculate_speeds(variables_in_sec)
 
@@ -38,6 +39,7 @@ def main():
     print('Pace min per km: ' + str(paces))
     print('Distance in meters: ' + str(distances))
     print('Intervals details: ' + str(intervals))
+    print('Summary: ' + str(summary))
 
     return
 
@@ -136,3 +138,4 @@ def check_input_speed(speed):
 
 if __name__ == "__main__":
     main()
+
