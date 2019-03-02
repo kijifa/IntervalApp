@@ -146,7 +146,7 @@ def convert_speed(speed):
 
 
 def check_time_format(time):
-    pattern = re.compile('[0-9]{1, }:[0-9][0-9]')
+    pattern = re.compile('[0-9]{1,}:[0-9][0-9]')
 
     if pattern.match(time):
         result = True
@@ -157,7 +157,7 @@ def check_time_format(time):
 
 
 def check_speed_format(speed):
-    pattern = re.compile('[0-9]{1, }[.][0-9][0-9]')
+    pattern = re.compile('[0-9]{1,}[.][0-9][0-9]')
 
     if pattern.match(speed):
         result = True
