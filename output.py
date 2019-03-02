@@ -28,32 +28,37 @@ def summary_output(keys, time, speed_kph, paces, distances,intervals,summary):
     table.field_names = ['Faze cviceni',
                          'Doba trvani (min:sec)',
                          'Prumerna rychlost (km/h)',
-                         'Vzdalenost (km)'
+                         'Vzdalenost (km)',
+                         'Tempo (min:sec/km)'
                          ]
 
     table.add_row([
-        'warm up',
+        'Zahrati',
         time.get('warm_up'),
         speed_kph.get('warm_up'),
-        round(distances.get('warm_up')/1000,2)
+        round(distances.get('warm_up')/1000,2),
+        paces.get('warm_up')
     ])
     table.add_row([
-        'cool down',
+        'Zklidneni',
         time.get('cool_down'),
         speed_kph.get('cool_down'),
-        round(distances.get('cool_down') / 1000, 2)
+        round(distances.get('cool_down') / 1000, 2),
+        paces.get('cool_down')
     ])
     table.add_row([
-        'intervals',
+        'Intervalova cast',
         intervals.get('sum_time_min'),
         intervals.get('average_speed_kph'),
-        round(intervals.get('sum_distance')/1000, 2)
+        round(intervals.get('sum_distance')/1000, 2),
+        intervals.get('pace')
     ])
     table.add_row([
-        'Summary',
+        'Souhrn',
         summary.get('total_time_min'),
         summary.get('average_speed_kph'),
-        round(summary.get('total_distance') / 1000, 2)
+        round(summary.get('total_distance') / 1000, 2),
+        summary.get('average_pace')
     ])
 
 

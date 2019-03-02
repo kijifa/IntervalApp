@@ -12,6 +12,7 @@ def calculate_intervals(time, speed, distance):
     intervals['sum_time_min'] = '{0:02.0f}:{1:02.0f}'.format(*divmod(intervals.get('sum_time'), 60))
     intervals['count_intervals'] = intervals.get('sum_time') / intervals.get('time')
     intervals['sum_distance'] = intervals.get('distance') * intervals.get('count_intervals')
+    intervals['pace'] = calculate_pace(intervals.get('average_speed_kph'))
 
     return intervals
 
