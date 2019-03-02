@@ -7,9 +7,9 @@ keys = ['warm_up', 'hiit', 'rest', 'cool_down']
 
 
 def main():
-    speed_kph = td.test_input_speed()
-    time = td.test_input_time()
-    #time, speed_kph = user_input()
+    #speed_kph = td.test_input_speed()
+    #time = td.test_input_time()
+    time, speed_kph = user_input()
 
     time_sec = cm.convert_time(time)
     speed_mps = cm.convert_speed(speed_kph)
@@ -113,8 +113,8 @@ def check_input_time(time):
 
         time = cm.set_zero(time)
 
-        if time != None:
-            if cm.check_time_format(time) == False:
+        if time is not None:
+            if cm.check_time_format(time) is False:
                 print('Zda se, ze "' + time + '" neni ve formatu "minuty:ss"')
                 time = input('Zkus to znovu: \n')
             else:
