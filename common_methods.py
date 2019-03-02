@@ -1,13 +1,49 @@
 import re
 
+
 def calculate_intervals(time, speed, distance):
     intervals = {}
 
     intervals['distance'] = distance.get('hiit') + distance.get('rest')
     intervals['time'] = time.get('hiit') + time.get('rest')
-    #intervals['average_speed'] = calculate_average_speed()
+    intervals['average_speed_mps'] = calculate_average_speed(intervals.get('distance'), intervals.get('time'))
+    intervals['average_speed_kph'] = round(intervals.get('average_speed_mps')*3.6,2)
+    intervals['sum_time'] = time.get('total') - time.get('warm_up') - time.get('cool_down')
+    intervals['sum_time_min'] = '{0:02.0f}:{1:02.0f}'.format(*divmod(intervals.get('sum_time'), 60))
+    intervals['count_intervals'] = intervals.get('sum_time') / intervals.get('time')
+    intervals['sum_distance'] = intervals.get('distance') * intervals.get('count_intervals')
+    intervals['pace'] = calculate_pace(intervals.get('average_speed_kph'))
 
     return intervals
+
+
+def test_input():
+    variables = {
+        'warm_up_time': '0:00',
+        'warm_up_pace': '0:00',
+        'hiit_time': '1:00',
+        'hiit_pace': '4:00',
+        'rest_time': '2:00',
+        'rest_pace': '5:30',
+        'cool_down_time': '0:00',
+        'cool_down_pace': '0:00',
+        'total_time': '39:00'
+    }
+
+    return variables
+
+
+def calculate_summary(time_sec, distances, intervals):
+    summary = {}
+
+    summary['total_time'] = time_sec.get('total')
+    summary['total_time_min'] = '{0:02.0f}:{1:02.0f}'.format(*divmod(summary.get('total_time'), 60))
+    summary['total_distance'] = intervals.get('sum_distance') + distances.get('warm_up') + distances.get('cool_down')
+    summary['average_speed_mps'] = calculate_average_speed(summary.get('total_distance'), summary.get('total_time'))
+    summary['average_speed_kph'] = round(summary.get('average_speed_mps') * 3.6,2)
+    summary['average_pace'] = calculate_pace(summary.get('average_speed_kph'))
+
+    return summary
 
 
 def calculate_paces(speed):
@@ -28,10 +64,11 @@ def calculate_pace(speed):
     return pace
 
 
-def calculate_average_speed(time,speed):
+def calculate_average_speed(distance, time):
 
+    average_speed = round(distance/time, 2)
 
-    return variables_sec
+    return average_speed
 
 
 def calculate_distances(time, speed_mps, keys):
@@ -46,7 +83,7 @@ def calculate_distances(time, speed_mps, keys):
 
 def calculate_distance(time, speed):
     distance = float(time) * float(speed)
-    distance = round(distance,2)
+    distance = round(distance, 2)
     return distance
 
 
@@ -109,7 +146,7 @@ def convert_speed(speed):
 
 
 def check_time_format(time):
-    pattern = re.compile('[0-9]{1,}:[0-9][0-9]')
+    pattern = re.compile('[0-9]{1, }:[0-9][0-9]')
 
     if pattern.match(time):
         result = True
@@ -120,7 +157,7 @@ def check_time_format(time):
 
 
 def check_speed_format(speed):
-    pattern = re.compile('[0-9]{1,}[.][0-9][0-9]')
+    pattern = re.compile('[0-9]{1, }[.][0-9][0-9]')
 
     if pattern.match(speed):
         result = True
@@ -135,13 +172,14 @@ def set_zero(variable):
         variable = None
     return variable
 
+
 def calculate_distances_deprecated(variables_sec):
     # Warm-Up
-    warm_up_distance = calculate_distance(variables_sec.get('warm_up_time'),variables_sec.get('warm_up_pace'))
+    warm_up_distance = calculate_distance(variables_sec.get('warm_up_time'), variables_sec.get('warm_up_pace'))
     variables_sec['warm_up_distance'] = warm_up_distance
 
     # Cool Down
-    cool_down_distance = calculate_distance(variables_sec.get('cool_down_time'),variables_sec.get('cool_down_pace'))
+    cool_down_distance = calculate_distance(variables_sec.get('cool_down_time'), variables_sec.get('cool_down_pace'))
     variables_sec['cool_down_distance'] = cool_down_distance
 
     # Interval Part

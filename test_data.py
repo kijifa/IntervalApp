@@ -20,7 +20,7 @@ def test_input_time():
         'hiit': '1:00',
         'rest': '2:00',
         'cool_down': '10:00',
-        'total': '45:00'
+        'total': '40:00'
     }
     return time
 

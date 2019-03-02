@@ -1,5 +1,6 @@
 import common_methods as cm
 import test_data as td
+import output as out
 
 
 keys = ['warm_up', 'hiit', 'rest', 'cool_down']
@@ -16,6 +17,8 @@ def main():
     paces = cm.calculate_paces(speed_kph)
     distances = cm.calculate_distances(time_sec, speed_mps, keys)
     intervals = cm.calculate_intervals(time_sec, speed_mps, distances)
+
+    summary = cm.calculate_summary(time_sec, distances, intervals)
 
     '''
     speeds = cm.calculate_speeds(variables_in_sec)
@@ -38,6 +41,11 @@ def main():
     print('Pace min per km: ' + str(paces))
     print('Distance in meters: ' + str(distances))
     print('Intervals details: ' + str(intervals))
+    print('Summary: ' + str(summary))
+
+    input_sum = out.summary_input(keys, time, speed_kph, paces, distances)
+    output_sum = out.summary_output(keys, time, speed_kph, paces, distances,intervals,summary)
+
 
     return
 
@@ -123,8 +131,8 @@ def check_input_speed(speed):
 
         speed = cm.set_zero(speed)
 
-        if speed != None:
-            if cm.check_speed_format(speed) == False:
+        if speed is not None:
+            if cm.check_speed_format(speed) is False:
                 print('Zda se, ze "' + speed + '" neni ve spravnem formatu "napr 8.00 km/h"')
                 speed = input('Zkus to znovu: \n')
             else:
@@ -136,3 +144,4 @@ def check_input_speed(speed):
 
 if __name__ == "__main__":
     main()
+
